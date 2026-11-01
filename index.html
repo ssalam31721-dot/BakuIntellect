@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -39,6 +38,7 @@ textarea::placeholder{color:#a4b0b9}
 .tools{display:flex;align-items:center;gap:12px}
 .tools button{background:transparent;color:#dce4e9;border:0;font-size:21px}
 .tools .send{margin-left:auto;background:#e6c36b;color:#14212b;border-radius:50%;width:39px;height:39px;font-size:22px}
+.tools .send:disabled{opacity:.5;cursor:wait}
 .note{text-align:center;font-size:11px;color:#82919d;padding:8px}
 #file{display:none}
 @media(max-width:650px){
@@ -87,7 +87,7 @@ textarea::placeholder{color:#a4b0b9}
 <button onclick="document.getElementById('file').click()" title="Şəkil əlavə et">＋</button>
 <input id="file" type="file" accept="image/*">
 <span id="fileName" style="font-size:11px;color:#aebbc5"></span>
-<button class="send" onclick="sendMessage()">↑</button>
+<button class="send" id="sendButton" onclick="sendMessage()">↑</button>
 </div>
 </div>
 <div class="note">BakuIntellect səhv edə bilər. Vacib məlumatları yoxla.</div>
@@ -98,11 +98,13 @@ textarea::placeholder{color:#a4b0b9}
 <script>
 let chats=JSON.parse(localStorage.getItem('baku-chats')||'[]');
 let active=0;
+let sending=false;
 
 function save(){
 localStorage.setItem('baku-chats',JSON.stringify(chats));
 render();
 }
+
 function newChat(){
 chats.unshift({title:'Yeni söhbət',messages:[]});
 active=0;
@@ -111,6 +113,7 @@ document.getElementById('messages').innerHTML='';
 document.getElementById('welcome').style.display='block';
 document.getElementById('sidebar').classList.remove('open');
 }
+
 function render(){
 let h=document.getElementById('history');
 h.innerHTML='';
@@ -121,6 +124,7 @@ b.onclick=()=>openChat(i);
 h.appendChild(b);
 });
 }
+
 function openChat(i){
 active=i;
 let c=chats[i];
@@ -129,40 +133,102 @@ c.messages.forEach(m=>addBubble(m.role,m.text));
 document.getElementById('welcome').style.display=c.messages.length?'none':'block';
 document.getElementById('sidebar').classList.remove('open');
 }
+
 function addBubble(role,text){
 let d=document.createElement('div');
 d.className='msg '+role;
 d.textContent=text;
 document.getElementById('messages').appendChild(d);
+return d;
 }
+
 function suggest(t){
 document.getElementById('question').value=t;
 sendMessage();
 }
-function sendMessage(){
+
+async function sendMessage(){
+if(sending)return;
+
 let input=document.getElementById('question');
+let button=document.getElementById('sendButton');
 let q=input.value.trim();
 if(!q)return;
-if(!chats[active])chats.unshift({title:'Yeni söhbət',messages:[]});
+
+if(!chats[active]){
+chats.unshift({title:'Yeni söhbət',messages:[]});
+active=0;
+}
+
 let c=chats[active];
 if(!c.messages.length)c.title=q.slice(0,28);
+
 c.messages.push({role:'user',text:q});
-c.messages.push({role:'bot',text:'Mesajını aldım! 😊 Mənim real süni intellekt cavabları verməyim üçün növbəti mərhələdə Groq bağlantısını quracağıq. Hələlik bu ilkin interfeysdir.'});
 input.value='';
 document.getElementById('welcome').style.display='none';
-openChat(active);
-save();
+
+addBubble('user',q);
+let loading=addBubble('bot','BakuIntellect düşünür... 😊');
+
+sending=true;
+button.disabled=true;
+
+try{
+let messages=c.messages
+.filter(m=>m!==c.messages[c.messages.length-1] || m.role==='user')
+.slice(0,-1)
+.map(m=>({
+role:m.role==='bot'?'assistant':m.role,
+content:m.text
+}));
+
+messages.push({role:'user',content:q});
+
+let response=await fetch('/api/chat',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({messages})
+});
+
+let data=await response.json();
+
+if(!response.ok){
+throw new Error(data.error||'Server xətası baş verdi.');
 }
+
+let reply=data.reply||'Cavab alınmadı.';
+loading.textContent=reply;
+c.messages.push({role:'bot',text:reply});
+
+}catch(error){
+loading.textContent='Bağlantı xətası: '+error.message;
+c.messages.push({role:'bot',text:'Bağlantı xətası: '+error.message});
+}
+
+sending=false;
+button.disabled=false;
+save();
+
+document.querySelector('.content').scrollTop=
+document.querySelector('.content').scrollHeight;
+}
+
 function toggleMenu(){
 document.getElementById('sidebar').classList.toggle('open');
 }
+
 document.getElementById('file').addEventListener('change',e=>{
 let f=e.target.files[0];
 document.getElementById('fileName').textContent=f?f.name:'';
 });
+
 document.getElementById('question').addEventListener('keydown',e=>{
-if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}
+if(e.key==='Enter'&&!e.shiftKey){
+e.preventDefault();
+sendMessage();
+}
 });
+
 if(!chats.length)chats=[{title:'Yeni söhbət',messages:[]}];
 render();
 openChat(0);
