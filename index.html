@@ -4,6 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BakuIntellect</title>
+  <style>
+*{box-sizing:border-box}
+body{margin:0;background:#101820;color:#f5f5f5;font-family:Arial,sans-serif}
+button{cursor:pointer}
+.app{display:flex;height:100dvh}
+.sidebar{width:260px;background:#111f2b;padding:18px;display:flex;flex-direction:column;border-right:1px solid #293b49}
+.brand{font-size:21px;font-weight:bold;color:#e6c36b;margin:10px 0 25px}
+.new{background:#233746;color:white;border:1px solid #405464;border-radius:12px;padding:13px;text-align:left;font-size:15px}
+.history{margin-top:25px;color:#9eacb8;font-size:13px}
+.history button{display:block;width:100%;text-align:left;background:transparent;color:#dce3e8;border:0;padding:10px 5px;border-radius:8px}
+.history button:hover{background:#263946}
+.bottom{margin-top:auto;color:#8c9ba7;font-size:12px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.top{height:60px;border-bottom:1px solid #293b49;display:flex;align-items:center;padding:0 20px;gap:15px}
+.menu{display:none;background:none;border:0;color:white;font-size:23px}
+.topname{font-weight:bold}
+.badge{margin-left:auto;color:#e6c36b;font-size:13px}
+.content{flex:1;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:25px 18px}
+.welcome{margin:auto 0;text-align:center;max-width:600px}
+.welcome h1{font-size:32px;color:#e6c36b;margin-bottom:12px}
+.welcome p{color:#aebbc5;line-height:1.6}
+.suggestions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:25px}
+.suggestions button{background:#1d303d;color:#dce4e9;border:1px solid #354b5b;border-radius:20px;padding:10px 13px}
+#messages{width:100%;max-width:760px}
+.msg{padding:13px 17px;margin:18px 0;border-radius:17px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.user{background:#263b49;margin-left:auto;max-width:85%;width:fit-content}
+.bot{max-width:90%;color:#f0f2f4}
+.composer-area{width:100%;max-width:800px;padding:12px 18px 8px;margin:auto auto 0}
+.composer{background:#202f3b;border:1px solid #40515e;border-radius:23px;padding:12px 14px}
+textarea{width:100%;resize:none;max-height:130px;background:transparent;border:0;outline:0;color:white;font-size:16px;font-family:Arial}
+textarea::placeholder{color:#a4b0b9}
+.tools{display:flex;align-items:center;gap:12px}
+.tools button{background:transparent;color:#dce4e9;border:0;font-size:21px}
+.tools .send{margin-left:auto;background:#e6c36b;color:#14212b;border-radius:50%;width:39px;height:39px;font-size:22px}
+.tools .send:disabled{opacity:.5;cursor:wait}
+.note{text-align:center;font-size:11px;color:#82919d;padding:8px}
+#file{display:none}
+@media(max-width:650px){
+.sidebar{display:none;position:absolute;z-index:5;height:100%;width:270px}
+.sidebar.open{display:flex}
+.menu{display:block}
+.welcome h1{font-size:27px}
+}
 /* BakuIntellect — Bakı mavi dizaynı */
 
 .app {
@@ -70,50 +113,7 @@ button {
 button:hover {
   filter: brightness(1.08);
 }
-  <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101820;color:#f5f5f5;font-family:Arial,sans-serif}
-button{cursor:pointer}
-.app{display:flex;height:100dvh}
-.sidebar{width:260px;background:#111f2b;padding:18px;display:flex;flex-direction:column;border-right:1px solid #293b49}
-.brand{font-size:21px;font-weight:bold;color:#e6c36b;margin:10px 0 25px}
-.new{background:#233746;color:white;border:1px solid #405464;border-radius:12px;padding:13px;text-align:left;font-size:15px}
-.history{margin-top:25px;color:#9eacb8;font-size:13px}
-.history button{display:block;width:100%;text-align:left;background:transparent;color:#dce3e8;border:0;padding:10px 5px;border-radius:8px}
-.history button:hover{background:#263946}
-.bottom{margin-top:auto;color:#8c9ba7;font-size:12px}
-.main{flex:1;display:flex;flex-direction:column;min-width:0}
-.top{height:60px;border-bottom:1px solid #293b49;display:flex;align-items:center;padding:0 20px;gap:15px}
-.menu{display:none;background:none;border:0;color:white;font-size:23px}
-.topname{font-weight:bold}
-.badge{margin-left:auto;color:#e6c36b;font-size:13px}
-.content{flex:1;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:25px 18px}
-.welcome{margin:auto 0;text-align:center;max-width:600px}
-.welcome h1{font-size:32px;color:#e6c36b;margin-bottom:12px}
-.welcome p{color:#aebbc5;line-height:1.6}
-.suggestions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:25px}
-.suggestions button{background:#1d303d;color:#dce4e9;border:1px solid #354b5b;border-radius:20px;padding:10px 13px}
-#messages{width:100%;max-width:760px}
-.msg{padding:13px 17px;margin:18px 0;border-radius:17px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-.user{background:#263b49;margin-left:auto;max-width:85%;width:fit-content}
-.bot{max-width:90%;color:#f0f2f4}
-.composer-area{width:100%;max-width:800px;padding:12px 18px 8px;margin:auto auto 0}
-.composer{background:#202f3b;border:1px solid #40515e;border-radius:23px;padding:12px 14px}
-textarea{width:100%;resize:none;max-height:130px;background:transparent;border:0;outline:0;color:white;font-size:16px;font-family:Arial}
-textarea::placeholder{color:#a4b0b9}
-.tools{display:flex;align-items:center;gap:12px}
-.tools button{background:transparent;color:#dce4e9;border:0;font-size:21px}
-.tools .send{margin-left:auto;background:#e6c36b;color:#14212b;border-radius:50%;width:39px;height:39px;font-size:22px}
-.tools .send:disabled{opacity:.5;cursor:wait}
-.note{text-align:center;font-size:11px;color:#82919d;padding:8px}
-#file{display:none}
-@media(max-width:650px){
-.sidebar{display:none;position:absolute;z-index:5;height:100%;width:270px}
-.sidebar.open{display:flex}
-.menu{display:block}
-.welcome h1{font-size:27px}
-}
-</style>
+  </style>
 </head>
 <body>
 <div class="app">
