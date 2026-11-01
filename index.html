@@ -46,57 +46,123 @@ textarea::placeholder{color:#a4b0b9}
 .sidebar.open{display:flex}
 .menu{display:block}
 .welcome h1{font-size:27px}
-/* BAKUINTELLECT — BAKU NIGHT DESIGN */
+/* BAKUINTELLECT — PROFESSIONAL BAKU THEME */
 
 :root {
-  color-scheme: dark;
-  --bg: #070d19;
-  --panel: #101c30;
-  --panel2: #14243b;
-  --text: #f5f9ff;
-  --muted: #a8bad0;
+  --bg: #070d18;
+  --panel: #0e1b2d;
+  --panel-light: #142740;
   --blue: #168eea;
-  --border: #263e5c;
+  --blue-light: #55baff;
+  --gold: #d4a373;
+  --text: #f5f8ff;
+  --muted: #a8b9ce;
+  --border: rgba(110, 170, 220, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
 }
 
 body {
   background:
-    radial-gradient(ellipse at 50% 100%, #12365b 0%, transparent 48%),
-    linear-gradient(145deg, #070d19, #0b1930) !important;
+    radial-gradient(ellipse at 15% 5%, rgba(22,142,234,.17), transparent 38%),
+    radial-gradient(ellipse at 90% 90%, rgba(10,65,110,.22), transparent 40%),
+    var(--bg) !important;
   color: var(--text) !important;
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
 }
 
-.app, .main, .chat, .container {
+/* MAIN BACKGROUND */
+
+.app, .main, .app-container, .main-content {
   background: transparent !important;
   color: var(--text) !important;
+  position: relative;
 }
 
-.sidebar {
-  background: #0b1527 !important;
+/* SIDEBAR */
+
+.sidebar, .baku-sidebar {
+  background: rgba(12, 27, 46, .94) !important;
   border-right: 1px solid var(--border) !important;
+  backdrop-filter: blur(18px);
 }
 
-.top, header {
-  background: rgba(12, 25, 44, .96) !important;
+.sidebar, .baku-sidebar, .baku-card {
+  box-shadow: 0 12px 35px rgba(0,0,0,.18);
+}
+
+/* TOP BAR */
+
+.top, .top-bar, header {
+  background: rgba(12, 27, 46, .92) !important;
   color: var(--text) !important;
   border-bottom: 1px solid var(--border) !important;
+  backdrop-filter: blur(18px);
 }
 
-button {
+/* HEADINGS */
+
+h1, h2, h3, .brand-title {
+  color: #f5f8ff !important;
+  letter-spacing: -.4px;
+}
+
+.brand-title {
+  background: linear-gradient(90deg, #fff, var(--blue-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* CHAT AREA */
+
+#messages, #history, #welcome {
   color: var(--text) !important;
-  transition: .25s ease;
 }
 
-button:hover {
-  background-color: #1a3554 !important;
-  transform: translateY(-1px);
+.message, .bubble, .bot-message {
+  color: var(--text) !important;
+  line-height: 1.7;
+}
+
+.user-message {
+  background: linear-gradient(135deg, #124b79, #123557) !important;
+  color: #fff !important;
+  border: 1px solid rgba(85,186,255,.2);
+  border-radius: 18px 18px 5px 18px !important;
+  padding: 13px 17px;
+}
+
+.bot-message {
+  background: rgba(17, 35, 57, .85) !important;
+  color: #f5f8ff !important;
+  border: 1px solid var(--border);
+  border-radius: 18px 18px 18px 5px !important;
+  padding: 13px 17px;
+}
+
+/* INPUT AREA */
+
+.composer-area {
+  background: transparent !important;
 }
 
 .composer {
-  background: #14243b !important;
-  border: 1px solid #31577d !important;
-  border-radius: 20px !important;
-  box-shadow: 0 0 25px #087bd51c !important;
+  background: rgba(17, 35, 57, .96) !important;
+  border: 1px solid rgba(85,186,255,.35) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 8px 35px rgba(0,0,0,.22);
+  transition: .25s ease;
+}
+
+.composer:focus-within {
+  border-color: var(--blue-light) !important;
+  box-shadow: 0 0 0 3px rgba(22,142,234,.12);
 }
 
 input, textarea, #question {
@@ -106,79 +172,115 @@ input, textarea, #question {
 
 input::placeholder,
 textarea::placeholder {
-  color: #9aadc4 !important;
+  color: var(--muted) !important;
 }
+
+/* SEND BUTTON */
 
 .send {
   background: linear-gradient(135deg, #168eea, #0755a5) !important;
   color: white !important;
+  border: none !important;
   border-radius: 14px !important;
+  box-shadow: 0 5px 18px rgba(22,142,234,.2);
 }
 
-.message, .bubble, #messages, #history {
-  color: var(--text) !important;
+.send:hover {
+  filter: brightness(1.15);
 }
 
-.user-message {
-  background: #123b63 !important;
+/* BUTTONS AND ICONS */
+
+button, .menu, .nav-item {
+  transition: .2s ease;
+}
+
+button {
+  color: var(--text);
+}
+
+button:hover, .nav-item:hover {
+  background-color: rgba(22,142,234,.13);
+}
+
+.menu, .nav-item.active {
+  color: var(--blue-light) !important;
+}
+
+/* CHAT HISTORY */
+
+#history button,
+.history-item,
+.chat-item,
+.conversation-item {
+  border-radius: 12px;
+  color: var(--muted) !important;
+  transition: .2s ease;
+}
+
+#history button:hover,
+.history-item:hover,
+.chat-item:hover,
+.conversation-item:hover {
+  background: rgba(22,142,234,.14) !important;
   color: white !important;
-  border-radius: 18px !important;
 }
 
-.bot-message {
-  background: #142238 !important;
-  color: white !important;
-  border-radius: 18px !important;
+/* BAKU DETAILS */
+
+.status-badge {
+  color: var(--blue-light) !important;
+  background: rgba(22,142,234,.12) !important;
+  border: 1px solid rgba(85,186,255,.28) !important;
+  border-radius: 30px;
 }
 
-/* BAKI GECESI */
-body::before {
-  content: "🏙️  🔥  🏙️";
-  position: fixed;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 35px;
-  opacity: .18;
-  pointer-events: none;
-  z-index: 0;
-}
+/* AZERBAIJAN FLAG */
 
-/* DALĞALANAN AZƏRBAYCAN BAYRAĞI */
 body::after {
   content: "🇦🇿";
   position: fixed;
-  right: 9px;
-  top: 42%;
-  font-size: 38px;
+  right: 12px;
+  top: 43%;
+  font-size: 35px;
   z-index: 9999;
   pointer-events: none;
   transform-origin: left center;
-  animation: flagWave 2s ease-in-out infinite;
-  filter: drop-shadow(0 3px 8px #168eea66);
+  animation: flagWave 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 3px 9px rgba(22,142,234,.3));
 }
 
 @keyframes flagWave {
-  0%, 100% { transform: rotate(-7deg) skewY(-3deg); }
-  50% { transform: rotate(7deg) skewY(3deg); }
+  0%, 100% {
+    transform: rotate(-6deg) skewY(-2deg);
+  }
+  50% {
+    transform: rotate(6deg) skewY(2deg);
+  }
 }
 
 /* SCROLLBAR */
+
 * {
-  scrollbar-color: #31577d #070d19;
+  scrollbar-color: #31577d #070d18;
 }
 
-/* TELEFON ÜÇÜN */
+/* MOBILE */
+
 @media (max-width: 600px) {
-  body::after {
-    font-size: 29px;
-    right: 5px;
+  .sidebar, .baku-sidebar {
+    border-radius: 0 0 18px 18px;
   }
 
   .composer {
     border-radius: 17px !important;
   }
-} 
+
+  body::after {
+    font-size: 27px;
+    right: 5px;
+  }
+}
   </style>
 </head>
 <body>
